@@ -1,0 +1,88 @@
+grammar org.xtext.htwg.LitMan with org.eclipse.xtext.common.Terminals
+
+generate litMan "http://www.xtext.org/example/mydsl/LitMan"
+
+LitMan:
+    literatur+=LitTypes*;
+    
+LitTypes:
+    Book|JournalArticle
+;
+    
+Book:
+    'Book' '{' 
+        'Title' '=>' title=STRING
+        'Authors' '=>' '[' authors=ListAuthors ']'
+        'Pages' '=>' pages=(PageSingle|PageRange)
+        'Date' '=>' date=(Year|Date)
+    '}'
+;
+
+JournalArticle:
+    'Article' '{' 
+        'Title' '=>' title=STRING
+        'Authors' '=>' '[' authors=ListAuthors ']'
+        'Volume' '=>' volume=INT
+        'Issue' '=>' issue=INT
+        'Pages' '=>' pages=(PageSingle|PageRange)
+        'Date' '=>' date=(Year|Date)
+    '}'
+;
+
+
+// Common rules
+Author:
+    'f' firstname=STRING
+    'l' lastname=STRING
+;
+
+ListAuthors:
+    (authors+=Author','?)*
+;
+
+PageSingle:
+    INT
+;
+PageRange:
+    INT'-'INT
+;
+
+// terminal definitions
+Year:
+    INT
+;
+
+Date:
+    INT'.'INT'.'INT
+;
+
+
+ /*
+  * TODO: Can a better date validation be achieved? 
+terminal DATE:
+    MONTHDAYS31'.01.'YEAR|
+    MONTHDAYS29'.02.'YEAR|
+    MONTHDAYS31'.03.'YEAR|
+    MONTHDAYS30'.04.'YEAR|
+    MONTHDAYS31'.05.'YEAR|
+    MONTHDAYS30'.06.'YEAR|
+    MONTHDAYS31'.07.'YEAR|
+    MONTHDAYS31'.08.'YEAR|
+    MONTHDAYS30'.09.'YEAR|
+    MONTHDAYS31'.10.'YEAR|
+    MONTHDAYS30'.11.'YEAR|
+    MONTHDAYS31'.12.'YEAR    
+;
+
+terminal MONTHDAYS29:
+    ('1'..'9')|'2'('1..9')
+;
+terminal MONTHDAYS30:
+    MONTHDAYS29|'30'
+;
+terminal MONTHDAYS31:
+    MONTHDAYS30|'31'
+;
+
+
+ */
