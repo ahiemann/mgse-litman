@@ -15,6 +15,8 @@ import org.xtext.htwg.litMan.JournalArticle
 import java.nio.file.Paths
 import java.util.logging.Logger
 
+import org.xtext.htwg.generator.LitManBibTexGenerator;
+
 /**
  * Generates code from your model files on save.
  * 
@@ -25,36 +27,13 @@ class LitManGenerator extends AbstractGenerator {
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 	    val litMan = resource.contents.head as LitMan
 	    val fileName = resource.URI.trimFileExtension.lastSegment 
-		fsa.generateFile(fileName + ".json", createLiteraturListJSON(litMan.literatur))
+
+
+        // Format Generations	    
+	    val jsonGenerator = new LitManJsonGenerator()
+		fsa.generateFile(fileName + ".json", jsonGenerator.createLiteratureList(litMan.literatur))
+		
+		val bibTexGenerator = new LitManBibTexGenerator()
+		fsa.generateFile(fileName + ".bib", bibTexGenerator.createLiteratureList(litMan.literatur))
 	}
-    
-    def createLiteraturListJSON(EList<LitTypes> list) '''
-        [
-            «FOR lit:list SEPARATOR ","»
-            {
-                «IF lit instanceof Book» 
-                "Title" : "«lit.title»",
-                "Authors" : [
-                            «FOR a:lit.authors.authors SEPARATOR ','» 
-                                 {"Fistname" : "«a.firstname»", "LastName" : "«a.lastname»"}
-                            «ENDFOR» 
-                            ],
-                "Pages" : "«lit.pages»",
-                "Date" : "«lit.date»"
-                «ELSEIF lit instanceof JournalArticle»
-                    "Title" : "«lit.title»",
-                    "Authors" : [
-                                «FOR a:lit.authors.authors SEPARATOR ','» 
-                                     {"Fistname" : "«a.firstname»", "LastName" : "«a.lastname»"}
-                                «ENDFOR» 
-                                ],
-                    "Pages" : "«lit.pages»",
-                    "Date" : "«lit.date»",
-                    "Volume" : "«lit.volume»",
-                    "Issue" : "«lit.issue»"
-                «ENDIF»
-            }
-            «ENDFOR»
-        ]
-    '''
 }
