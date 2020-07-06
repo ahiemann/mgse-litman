@@ -9,35 +9,31 @@ import java.util.ArrayList
 
 class LitManJsonGenerator {
     
-    def createLiteratureList(EList<LitTypes> list) '''
+    def createLiteratureList(EList<LitTypes> list) {
+        var json = '''
         [
             «FOR lit:list SEPARATOR ","»
             {
-                «IF lit instanceof Book» 
+                «IF lit instanceof Book || lit instanceof JournalArticle»
                 "Title" : "«lit.title»",
                 "Authors" : [
-                            «FOR a:lit.authors.authors SEPARATOR ','» 
-                                 {"Fistname" : "«a.firstname»", "LastName" : "«a.lastname»"}
-                            «ENDFOR» 
-                            ],
+                «FOR a:lit.authors.authors SEPARATOR ','» 
+                     {"Fistname" : "«a.firstname»", "LastName" : "«a.lastname»"}
+                «ENDFOR» 
+                ],
                 "Pages" : "«lit.pages»",
-                "Date" : "«lit.date»"
-                «ELSEIF lit instanceof JournalArticle»
-                    "Title" : "«lit.title»",
-                    "Authors" : [
-                                «FOR a:lit.authors.authors SEPARATOR ','» 
-                                     {"Fistname" : "«a.firstname»", "LastName" : "«a.lastname»"}
-                                «ENDFOR» 
-                                ],
-                    "Pages" : "«lit.pages»",
-                    "Date" : "«lit.date»",
-                    "Volume" : "«lit.volume»",
-                    "Issue" : "«lit.issue»"
+                "Date" : "«lit.date»",
+                «ENDIF» 
+                «IF lit instanceof JournalArticle»
+                "Volume" : "«lit.volume»",
+                "Issue" : "«lit.issue»"
                 «ENDIF»
             }
             «ENDFOR»
         ]
-    '''
-    
-    
+        '''
+        
+        json = json.replaceAll(",\r?\n(\\s*)}", "\n$1}")
+        json
+    }
 }

@@ -31,7 +31,7 @@ class LitManBibTexGenerator {
        '''
         
        // remove unnecessary commas after the last attribute
-       bibtex = bibtex.replaceAll(",\r?\n}", "\n}")
+       bibtex = bibtex.replaceAll(",\r?(\\s*)\n}", "\n$1}")
         
        bibtex
     } 
