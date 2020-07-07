@@ -25,7 +25,7 @@ class LitManBibTexGenerator {
                 «ENDIF»
                 «IF lit instanceof PrintType»
                 pages = {«lit.pages»},
-                 «IF lit.year !== null »year = {«lit.year»},«ENDIF»
+                «IF lit.year !== null »year = {«lit.year»},«ENDIF»
                 «ENDIF»
                 «IF lit instanceof JournalArticle»
                 volume = {«lit.volume»},

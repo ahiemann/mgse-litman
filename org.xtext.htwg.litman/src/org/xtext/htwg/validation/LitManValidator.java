@@ -57,10 +57,9 @@ public class LitManValidator extends AbstractLitManValidator {
 	public void checkUrlOfWebsite(Website website ) {
 		Matcher matcher = URL_PATTERN.matcher(website.getUrl());
 		website.getTitle();
-		if(matcher.matches()) {
-			System.out.println("The URL is valid");
+		if(! matcher.matches()) {
+			error("The URL is invalid", LitManPackage.Literals.WEBSITE__URL);
 		}
-		error("The URL is invalid", LitManPackage.Literals.WEBSITE__URL);
 	}
 	
 }
