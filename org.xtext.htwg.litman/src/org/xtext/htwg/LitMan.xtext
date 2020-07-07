@@ -6,7 +6,7 @@ LitMan:
     literatur+=LitTypes*;
     
 LitTypes:
-    Book|JournalArticle
+    Website|Book|JournalArticle
 ;
     
 Book:
@@ -14,7 +14,7 @@ Book:
         'Title' '=>' title=STRING
         'Authors' '=>' '[' authors=ListAuthors ']'
         'Pages' '=>' pages=(PageSingle|PageRange)
-        'Date' '=>' date=(Year|Date)
+        'Date' '=>' date=Date
     '}'
 ;
 
@@ -25,7 +25,16 @@ JournalArticle:
         'Volume' '=>' volume=INT
         'Issue' '=>' issue=INT
         'Pages' '=>' pages=(PageSingle|PageRange)
-        'Date' '=>' date=(Year|Date)
+        'Date' '=>' date=Date
+    '}'
+;
+
+Website:
+    'Website' '{' 
+        'Title' '=>' title=STRING
+        'Authors' '=>' '[' authors=ListAuthors ']'
+        'URL' '=>' url=STRING
+        'Date' '=>' date=Date
     '}'
 ;
 
@@ -51,9 +60,16 @@ PageRange:
 Year:
     INT
 ;
+Month:
+	INT
+;
+
+Day:
+	INT
+;
 
 Date:
-    INT'.'INT'.'INT
+    Day'/'Month'/'Year
 ;
 
 

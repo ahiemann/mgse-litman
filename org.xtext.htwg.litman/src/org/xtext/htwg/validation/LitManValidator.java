@@ -3,6 +3,18 @@
  */
 package org.xtext.htwg.validation;
 
+import java.net.URL;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.eclipse.xtext.validation.Check;
+import org.xtext.htwg.litMan.LitTypes;
+import org.xtext.htwg.litMan.Website;
 
 /**
  * This class contains custom validation rules. 
@@ -10,6 +22,44 @@ package org.xtext.htwg.validation;
  * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#validation
  */
 public class LitManValidator extends AbstractLitManValidator {
+	
+	public static final String INVALID_NAME = "invalidName";
+	
+	public static final String INVALID_DATE = "invalidDate";	
+	
+	private static final String URL_REGEX =
+			"^((((https?|ftps?|gopher|telnet|nntp)://)|(mailto:|news:))" +
+			"(%[0-9A-Fa-f]{2}|[-()_.!~*';/?:@&=+$,A-Za-z0-9])+)" +
+			"([).!';/?:,][[:blank:]])?$";
+	private static final Pattern URL_PATTERN = Pattern.compile(URL_REGEX);
+
+	@Check
+	public static void checkDateOfLitTypes(LitTypes litTypes) {
+		 if(litTypes.getDate().length()!=4) {
+			 Calendar cal = Calendar.getInstance();
+			 DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+			 df.setLenient(false);
+			 cal.setLenient(false);
+			 try {
+		         Date d = df.parse(litTypes.getDate().replace('.', '/'));
+		         cal.setTime(d);
+			     System.out.println(cal.getTime());
+			 }
+			 catch (Exception e) {
+			   System.out.println("Invalid date");
+			 }
+		 } 
+	}
+	
+	@Check
+	public static void checkUrlOfWebsite(Website website ) {
+		Matcher matcher = URL_PATTERN.matcher(website.getUrl());
+		if(matcher.matches()) {
+			System.out.println("The URL is valid");
+		}
+		System.out.println("The URL is invalid");
+	}
+	
 	
 //	public static final String INVALID_NAME = "invalidName";
 //
