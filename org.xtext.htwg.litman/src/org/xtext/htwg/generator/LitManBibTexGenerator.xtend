@@ -4,8 +4,9 @@ import org.xtext.htwg.litMan.Book
 import org.eclipse.emf.common.util.EList
 import org.xtext.htwg.litMan.LitTypes
 import org.xtext.htwg.litMan.JournalArticle
-import java.util.List
 import java.util.ArrayList
+import org.xtext.htwg.litMan.PrintType
+import org.xtext.htwg.litMan.Website
 
 class LitManBibTexGenerator {
     // list of unique literature keys that were generated
@@ -16,16 +17,23 @@ class LitManBibTexGenerator {
         var bibtex = '''
         «FOR lit:list»
             @«getTypeName(lit)»{«getUniqueBibtexKey(lit)»,
-            «IF lit instanceof Book || lit instanceof JournalArticle»
                 title = {«lit.title»},
                 author = {«FOR a:lit.authors.authors SEPARATOR ' and '»«a.lastname», «a.firstname»«ENDFOR»},
+                «IF lit.date !== null »
+                year = {«getYearFromDate(lit.date)»},
+                month = {«getMonthFromDate(lit.date)»},
+                «ENDIF»
+                «IF lit instanceof PrintType»
                 pages = {«lit.pages»},
-                year = {«lit.date»},
-            «ENDIF»
-            «IF lit instanceof JournalArticle»
+                 «IF lit.year !== null »year = {«lit.year»},«ENDIF»
+                «ENDIF»
+                «IF lit instanceof JournalArticle»
                 volume = {«lit.volume»},
                 number = {«lit.issue»},
-            «ENDIF»
+                «ENDIF»
+                «IF lit instanceof Website»
+                url = {«lit.url»},
+                «ENDIF»
             }
         «ENDFOR»
        '''
@@ -34,11 +42,11 @@ class LitManBibTexGenerator {
        bibtex = bibtex.replaceAll(",\r?(\\s*)\n}", "\n$1}")
         
        bibtex
-    } 
+    }
     
     
     // Create unique key for literature
-    def getUniqueBibtexKey(LitTypes t) {
+    def private getUniqueBibtexKey(LitTypes t) {
         var basisKey = ""
         if (t.authors.authors.length > 0) {
            basisKey += t.authors.authors.get(0).lastname    
@@ -70,12 +78,48 @@ class LitManBibTexGenerator {
         
    // Helper method for getting the BibTex type name for the
    // LitMan Type
-   def getTypeName(LitTypes t) {
+   def private getTypeName(LitTypes t) {
         if (t instanceof Book)
             "book"
         else if (t instanceof JournalArticle)
             "article"
         else
             "misc"
+   }
+   
+   def private getYearFromDate(String date) {
+       return date.substring(6);
+   }
+   
+   def private getMonthFromDate(String date) {
+       val month = date.substring(3, 5);
+       switch (month) {
+           case "01":
+            "Jan"
+            case "02":
+            "Feb"
+            case "03":
+            "Mar"
+            case "04":
+            "Apr"
+            case "05":
+            "May"
+            case "06":
+            "June"
+            case "07":
+            "July"
+            case "08":
+            "Aug"
+            case "09":
+            "Sept"
+            case "10":
+            "Oct"
+            case "11":
+            "Nov"
+            case "12":
+            "Dec"
+            default:
+            "Unsupported month format"
+       }
    }
 }
