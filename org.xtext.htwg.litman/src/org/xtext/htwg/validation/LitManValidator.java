@@ -12,7 +12,9 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.xtext.validation.Check;
+import org.xtext.htwg.litMan.LitManPackage;
 import org.xtext.htwg.litMan.LitTypes;
 import org.xtext.htwg.litMan.Website;
 
@@ -34,7 +36,7 @@ public class LitManValidator extends AbstractLitManValidator {
 	private static final Pattern URL_PATTERN = Pattern.compile(URL_REGEX);
 
 	@Check
-	public static void checkDateOfLitTypes(LitTypes litTypes) {
+	public void checkDateOfLitTypes(LitTypes litTypes) {
 		 if(litTypes.getDate().length()!=4) {
 			 Calendar cal = Calendar.getInstance();
 			 DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
@@ -46,30 +48,19 @@ public class LitManValidator extends AbstractLitManValidator {
 			     System.out.println(cal.getTime());
 			 }
 			 catch (Exception e) {
-			   System.out.println("Invalid date");
+			   error("Invalid date", LitManPackage.Literals.LIT_TYPES__DATE);
 			 }
 		 } 
 	}
 	
 	@Check
-	public static void checkUrlOfWebsite(Website website ) {
+	public void checkUrlOfWebsite(Website website ) {
 		Matcher matcher = URL_PATTERN.matcher(website.getUrl());
+		website.getTitle();
 		if(matcher.matches()) {
 			System.out.println("The URL is valid");
 		}
-		System.out.println("The URL is invalid");
+		error("The URL is invalid", LitManPackage.Literals.WEBSITE__URL);
 	}
-	
-	
-//	public static final String INVALID_NAME = "invalidName";
-//
-//	@Check
-//	public void checkGreetingStartsWithCapital(Greeting greeting) {
-//		if (!Character.isUpperCase(greeting.getName().charAt(0))) {
-//			warning("Name should start with a capital",
-//					LitManPackage.Literals.GREETING__NAME,
-//					INVALID_NAME);
-//		}
-//	}
 	
 }
