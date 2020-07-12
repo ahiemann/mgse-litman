@@ -1,0 +1,45 @@
+Article {
+    Journal => "Acta Informatica"
+    Title => "On the hardness of analyzing probabilistic programs"
+    Authors => [
+            f "Benjamn Lucien" l "Kaminski"
+            f "Joost-Pieter" l "Katoen"
+            f "Christoph" l "Matheja"
+        ]
+    Volume => 56
+    Issue => 3
+    Pages => 255-285
+    Year => 2019
+}
+Book {
+    Title => "Design Patterns. Elements of Reusable Object-Oriented Software."
+    Authors => [
+        f "Erich" l "Gamma"
+        f "Richard" l "Helm"
+        f "Ralph E." l "Johnson"
+        f "John" l "Vlissides"
+    ]
+    Publisher => "Addison-Wesley"
+    Year => 1998
+}
+Website {
+    Title => "Xtext - 15 Minutes Tutorial"
+    Authors => [
+        f "Sven" l "Efftinge"
+        f "Miro" l "Spoenemann"
+    ]
+    URL => "https://www.eclipse.org/Xtext/documentation/102_domainmodelwalkthrough.html"
+    Date => 12.07.2020
+}
+Book {
+    Title => "Hier könnte der Buchtitel stehen!"
+    Authors => [f "Max" l "Mustermann" f "Sabine" l "Musterfrau"]
+    Publisher => "Musterverlag"
+    Date => 01.01.2020
+}
+Book {
+    Title => "Hier könnte der Buchtitel stehen!"
+    Authors => [f "Max" l "Mustermann" f "Sabine" l "Musterfrau"]
+    Publisher => "Musterverlag"
+    Date => 01.01.2020
+}
