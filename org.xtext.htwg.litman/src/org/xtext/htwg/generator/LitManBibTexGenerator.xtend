@@ -24,12 +24,16 @@ class LitManBibTexGenerator {
                 month = {«getMonthFromDate(lit.date)»},
                 «ENDIF»
                 «IF lit instanceof PrintType»
-                pages = {«lit.pages»},
                 «IF lit.year !== null »year = {«lit.year»},«ENDIF»
                 «ENDIF»
+                «IF lit instanceof Book»
+                publisher = {«lit.publisher»},
+                «ENDIF»
                 «IF lit instanceof JournalArticle»
+                journal = {«lit.journal»},
                 volume = {«lit.volume»},
                 number = {«lit.issue»},
+                pages = {«lit.pages»},
                 «ENDIF»
                 «IF lit instanceof Website»
                 url = {«lit.url»},

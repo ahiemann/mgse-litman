@@ -18,13 +18,14 @@ Book:
     'Book' '{' 
         'Title' '=>' title=STRING
         'Authors' '=>' '[' authors=ListAuthors ']'
-        'Pages' '=>' pages=(PageSingle|PageRange)
+        'Publisher' '=>' publisher=STRING
         ('Date' '=>' date=Date|'Year' '=>' year=Year)
     '}'
 ;
 
 JournalArticle:
-    'Article' '{' 
+    'Article' '{'
+    	'Journal' '=>' journal=STRING
         'Title' '=>' title=STRING
         'Authors' '=>' '[' authors=ListAuthors ']'
         'Volume' '=>' volume=INT
