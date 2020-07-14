@@ -13,7 +13,6 @@ class LitManBibTexGenerator {
     var idKeys = new ArrayList<String>()
     
     def createLiteratureList(EList<LitTypes> list) {
-        
         var bibtex = '''
         «FOR lit:list»
             @«getTypeName(lit)»{«getUniqueBibtexKey(lit)»,
@@ -62,8 +61,9 @@ class LitManBibTexGenerator {
             basisKey += '''.«t.date»'''
         }
         
-        // no spaces allowed for key
-        basisKey.replaceAll(" ", "_")
+        // replace forbidden characters with underscore
+        // space, comma, [, ], {, }, (, )
+        basisKey = basisKey.replaceAll("[ ,\\[\\]()\\{\\}]", "_")
         
         // check if the same key already was used
         // for another literature. If so, try to create

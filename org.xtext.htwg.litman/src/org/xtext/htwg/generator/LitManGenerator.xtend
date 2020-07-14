@@ -31,9 +31,15 @@ class LitManGenerator extends AbstractGenerator {
 
         // Format Generations	    
 	    val jsonGenerator = new LitManJsonGenerator()
-		fsa.generateFile(fileName + ".json", jsonGenerator.createLiteratureList(litMan.literatur))
+		fsa.generateFile(
+			fileName + ".json", 
+			jsonGenerator.createLiteratureList(litMan.literatur)
+		)
 		
 		val bibTexGenerator = new LitManBibTexGenerator()
-		fsa.generateFile(fileName + ".bib", bibTexGenerator.createLiteratureList(litMan.literatur))
+		fsa.generateFile(
+			fileName + ".bib", 
+			bibTexGenerator.createLiteratureList(litMan.literatur)
+		)
 	}
 }

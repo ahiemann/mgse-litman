@@ -17,11 +17,12 @@ class LitManJsonGenerator {
             	"Title" : "«lit.title»",
                 "Authors" : [
                 «FOR a:lit.authors.authors SEPARATOR ','» 
-                {"Fistname" : "«a.firstname»", "LastName" : "«a.lastname»"}
+                {"Firstname" : "«a.firstname»", "LastName" : "«a.lastname»"}
                 «ENDFOR» 
                 ],
                 «IF lit instanceof PrintType»
-                "Date" : "«lit.date»",
+                	«IF lit.date !== null»"Date" : "«lit.date»",
+                	«ELSEIF lit.year !== null»"Year" : "«lit.year»"«ENDIF»
                 «ENDIF» 
                 «IF lit instanceof Book»
                 "Publisher" : "«lit.publisher»",
@@ -33,7 +34,7 @@ class LitManJsonGenerator {
                 "Issue" : "«lit.issue»",
                 «ENDIF»
                 «IF lit instanceof Website»
-                 "Url" : "«lit.url»,
+                 "Url" : "«lit.url»",
                 «ENDIF»
             }
             «ENDFOR»

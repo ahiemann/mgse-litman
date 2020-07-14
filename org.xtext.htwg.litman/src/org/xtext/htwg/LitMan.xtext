@@ -9,7 +9,6 @@ LitTypes:
     Website|PrintType
 ;
 
-
 PrintType:
     Book|JournalArticle
 ;
